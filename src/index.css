@@ -1,0 +1,16 @@
+#root,
+body,
+html {
+  width: 100%;
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #fceabb;
+  background: linear-gradient(to bottom, #fa8607, #fcb033);
+  color: #fff;
+  font-family: "Times New Roman", Times, serif;
+}

@@ -4,7 +4,6 @@ export const capitals = [
   "Belo Horizonte",
   "Brasília",
   "Belém",
-  "Salvador",
   "Curitiba",
   "Fortaleza",
   "Manaus",
