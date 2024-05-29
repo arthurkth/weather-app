@@ -47,7 +47,7 @@ function App() {
         wind_speed: parseFloat((speed * 3.6).toFixed(2)),
       });
       setIsWeatherCardVisible(true);
-    } catch (error) {
+    } catch (error: any) {
       setWeatherInfo(null);
       setError(error.message);
       setIsErrorActive(true);
