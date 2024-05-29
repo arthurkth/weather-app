@@ -8,4 +8,5 @@ export type WeatherCardProps = {
   feels_like: number;
   humidity: number;
   wind_speed: number;
+  onClose: () => void;
 };

@@ -9,8 +9,13 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
   const [isErrorActive, setIsErrorActive] = useState(false);
+  const [isWeatherCardVisible, setIsWeatherCardVisible] = useState(false);
+
+  const handleCloseCard = () => {
+    setIsWeatherCardVisible(false);
+  };
 
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     setSearchValue(e.target.value);
@@ -23,7 +28,7 @@ function App() {
       return false;
     }
     try {
-      const city = await weatherService.getByCityName(searchValue);
+      const city = await weatherService.getByCityName(searchValue.trimEnd());
       const {
         name,
         sys: { country },
@@ -41,6 +46,7 @@ function App() {
         weather: weatherValue,
         wind_speed: parseFloat((speed * 3.6).toFixed(2)),
       });
+      setIsWeatherCardVisible(true);
     } catch (error) {
       setWeatherInfo(null);
       setError(error.message);
@@ -52,23 +58,10 @@ function App() {
 
   return (
     <main className="main">
-      <div className="search">
-        <h1 className="search__title">Previsão do tempo</h1>
-        <form onSubmit={submitSearchValue} className="search__form">
-          <div className="search__input-container">
-            <input
-              type="search"
-              placeholder="Insira aqui o nome da cidade"
-              value={searchValue}
-              onChange={handleSearch}
-              className="search__input"
-            />
-            <FontAwesomeIcon icon={faSearch} className="search__icon" />
-          </div>
-        </form>
-      </div>
+      <h1 className="search__title">Previsão do tempo</h1>
       <div className="main__container">
-        {weatherInfo?.main &&
+        {isWeatherCardVisible &&
+        weatherInfo?.main &&
         weatherInfo.weather &&
         weatherInfo.city_info &&
         weatherInfo.wind_speed ? (
@@ -82,12 +75,27 @@ function App() {
             feels_like={weatherInfo.main.feels_like}
             humidity={weatherInfo.main.humidity}
             wind_speed={weatherInfo.wind_speed}
+            onClose={handleCloseCard}
           />
         ) : (
           <p className={"main__error" + (isErrorActive ? " active" : "")}>
             {error}
           </p>
         )}
+      </div>
+      <div className="search">
+        <form onSubmit={submitSearchValue} className="search__form">
+          <div className="search__input-container">
+            <input
+              type="search"
+              placeholder="Insira aqui o nome da cidade"
+              value={searchValue}
+              onChange={handleSearch}
+              className="search__input"
+            />
+            <FontAwesomeIcon icon={faSearch} className="search__icon" />
+          </div>
+        </form>
       </div>
       <CapitalsWeather />
     </main>
